@@ -21,11 +21,11 @@ jobs:
       - name: Install deps
         run: |
           sudo apt update -y
-          sudo apt install -y ninja-build libfreetype6-dev libx11-dev libgl1-mesa-dev libglu1-mesa-dev
+          sudo apt install -y ninja-build libfreetype6-dev libx11-dev libgl1-mesa-dev libglu1-mesa-dev libglfw3-dev
       - name: Run cmake
         run: |
           mkdir build && cd build
-          cmake ../Aurora -GNinja -DGLFW_SYSTEM=ON
+          cmake ../Aurora -GNinja
       - name: Run build-wrapper
         run: |
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} ninja -C build

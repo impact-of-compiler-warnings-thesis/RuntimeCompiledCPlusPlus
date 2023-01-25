@@ -28,6 +28,9 @@ jobs:
                            libgl1-mesa-dev \
                            libglu1-mesa-dev
       - name: Run cmake
+        env:
+          CC: /usr/bin/clang
+          CXX: /usr/bin/clang++
         run: |
           cd Aurora
           mkdir build && cd build

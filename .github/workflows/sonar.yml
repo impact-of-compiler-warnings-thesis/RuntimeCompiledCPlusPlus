@@ -19,15 +19,22 @@ jobs:
       - name: Install sonar-scanner and build-wrapper
         uses: SonarSource/sonarcloud-github-c-cpp@v1
       - uses: RpxdYTX/install-glfw-deps@v2
-      - name: Install deps
+      - name: Install system dependencies
         run: |
-          sudo apt update -y
-          sudo apt install -y ninja-build libfreetype6-dev libx11-dev libgl1-mesa-dev libglu1-mesa-dev
+          sudo apt update
+          sudo apt install ninja-build \
+                           libfreetype6-dev \
+                           libx11-dev \
+                           libgl1-mesa-dev \
+                           libglu1-mesa-dev
       - name: Run cmake
         run: |
           cd Aurora
           mkdir build && cd build
-          cmake .. -GNinja -DPOSITION_INDEPENDENT_CODE=ON
+          cmake .. -GNinja \
+                   -DCMAKE_BUILD_TYPE=Debug \ 
+                   -DPOSITION_INDEPENDENT_CODE=ON \
+                   -DCMAKE_CXX_FLAGS='-fPIE'
       - name: Run build-wrapper
         run: |
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} ninja -C Aurora/build

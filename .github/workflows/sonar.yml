@@ -33,8 +33,9 @@ jobs:
         run: |
           git clone https://github.com/glfw/glfw-legacy
           cd glfw-legacy
-          make -j $(nproc)
-          sudo make install
+          make -j $(nproc) x11
+          sudo make x11-install
+          sudo make x11-dist-install
       - name: Run cmake
         env:
           CC: /usr/bin/clang

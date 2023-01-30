@@ -26,7 +26,15 @@ jobs:
                            libfreetype6-dev \
                            libx11-dev \
                            libgl1-mesa-dev \
-                           libglu1-mesa-dev
+                           libglu1-mesa-dev \
+                           libwayland-dev \
+                           xorg-dev
+      - name: Build GLFW
+        run: |
+          git clone https://github.com/glfw/glfw-legacy
+          cd glfw-legacy
+          make -j $(nproc)
+          sudo make install
       - name: Run cmake
         env:
           CC: /usr/bin/clang
@@ -37,8 +45,7 @@ jobs:
           cmake .. -GNinja \
                    -DCMAKE_BUILD_TYPE=Debug \
                    -DPOSITION_INDEPENDENT_CODE=ON \
-                   -DCMAKE_CXX_FLAGS=-fPIE \
-                   -DLDFLAGS="-fPIE -fPIC"
+                   -DGLFW_SYSTEM=ON
       - name: Run build-wrapper
         run: |
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} ninja -C Aurora/build
